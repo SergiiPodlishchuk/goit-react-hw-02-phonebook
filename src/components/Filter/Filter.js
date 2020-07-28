@@ -1,8 +1,14 @@
-<div>
-  Find contacts by name or number
-  <input
-    type="text"
-    value={this.state.filter}
-    onChange={(e) => this.onChangeFilter(e.target.value)}
-  />
-</div>;
+import React from "react";
+
+export default function Filter({ value, inputFilter }) {
+  return (
+    <div>
+      Find contacts by name or number
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => inputFilter(e.target.value)}
+      />
+    </div>
+  );
+}

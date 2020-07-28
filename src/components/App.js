@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 
 import ContactForm from "./ContactForm/ContactForm";
-// import TaskEditor from "./TaskList/TaskEditor";
-// // import createTask from "./utils/createTask";
+import ContactList from "./ContactList/ContactList";
+import Filter from "./Filter/Filter";
 import { v4 as uuidv4 } from "uuid";
-// import Filter from "./Filter";
 
 export default class App extends Component {
   state = {
@@ -25,9 +24,24 @@ export default class App extends Component {
       number,
     };
 
+    const arr = this.state.contacts.map((nameC) => nameC.name);
+
+    if (arr.includes(name)) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
+
     this.setState((prevState) => {
       return {
         contacts: [...prevState.contacts, contact],
+      };
+    });
+  };
+
+  removeContact = (contactId) => {
+    this.setState((prevState) => {
+      return {
+        contacts: prevState.contacts.filter(({ id }) => id !== contactId),
       };
     });
   };
@@ -47,40 +61,18 @@ export default class App extends Component {
   };
 
   render() {
-    const visibleContacts = this.getVisibleTasks();
     return (
       <div>
         <h1>Phonebook</h1>
         <ContactForm addContact={this.addContact} />
 
         <h2>Contacts</h2>
-        <div>
-          Find contacts by name or number
-          <input
-            type="text"
-            value={this.state.filter}
-            onChange={(e) => this.onChangeFilter(e.target.value)}
-          />
-        </div>
-        <ul>
-          {visibleContacts.map((contact) => {
-            return (
-              <li key={contact.id}>
-                {contact.name}: {contact.number}
-              </li>
-            );
-          })}
-        </ul>
+        <Filter value={this.state.filter} inputFilter={this.onChangeFilter} />
+        <ContactList
+          visibleContacts={this.getVisibleTasks}
+          oNdeleteContact={this.removeContact}
+        />
       </div>
     );
   }
 }
-
-/* <div>
-  <h1>Phonebook</h1>
-  <ContactForm ... />
-
-  <h2>Contacts</h2>
-  <Filter ... />
-  <ContactList ... />
-</div> */

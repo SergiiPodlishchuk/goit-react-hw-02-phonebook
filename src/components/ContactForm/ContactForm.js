@@ -21,13 +21,14 @@ export default class ContactForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(this.state);
     const { name, number } = this.state;
 
     this.props.addContact({ name, number });
 
     this.setState({ name: "", number: "" });
   };
+
+  checkedContact = (e) => {};
 
   render() {
     return (
@@ -49,7 +50,9 @@ export default class ContactForm extends Component {
           />
         </label>
 
-        <button type="submit">Add contact</button>
+        <button type="submit" onClick={this.checkedContact}>
+          Add contact
+        </button>
       </form>
     );
   }
