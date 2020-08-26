@@ -1,58 +1,63 @@
 import React, { Component } from "react";
 
-export default class ContactForm extends Component {
-  state = {
-    name: "",
-    number: "",
-  };
+import style from "./ContactForm.module.css";
 
-  inputName = (e) => {
+const INITIAL_CONTACT_STATE = {
+  name: "",
+  number: "",
+};
+
+export default class ContactForm extends Component {
+  state = INITIAL_CONTACT_STATE;
+
+  inputName = ({ target }) => {
     this.setState({
-      name: e.target.value,
+      name: target.value,
     });
   };
 
-  inputNumber = (e) => {
+  inputNumber = ({ target }) => {
     this.setState({
-      number: e.target.value,
+      number: target.value,
     });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-
     const { name, number } = this.state;
+    const { addContact } = this.props;
 
-    this.props.addContact({ name, number });
-
-    this.setState({ name: "", number: "" });
+    addContact({ name, number });
+    this.setState({ ...INITIAL_CONTACT_STATE });
   };
 
-  checkedContact = (e) => {};
-
   render() {
+    const { name, number } = this.state;
+
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
           Name
           <input
+            placeholder="Enter name"
+            className={style.inputName}
             type="text"
-            value={this.state.name}
+            value={name}
             onChange={this.inputName}
           />
         </label>
         <label>
           Number
           <input
+            placeholder="Enter number in format xxx-xx-xx"
             type="tel"
-            value={this.state.number}
+            pattern="[0-9]{3}-[0-9]{2}-[0-9]{2}"
+            value={number}
             onChange={this.inputNumber}
           />
         </label>
 
-        <button type="submit" onClick={this.checkedContact}>
-          Add contact
-        </button>
+        <button type="submit">Add contact</button>
       </form>
     );
   }

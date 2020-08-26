@@ -5,9 +5,10 @@ export default function Filter({ value, inputFilter }) {
     <div>
       Find contacts by name or number
       <input
+        placeholder="What do you want to find???"
         type="text"
         value={value}
-        onChange={(e) => inputFilter(e.target.value)}
+        onChange={({ target }) => inputFilter(target.value)}
       />
     </div>
   );
